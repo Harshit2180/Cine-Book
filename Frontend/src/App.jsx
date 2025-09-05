@@ -19,7 +19,7 @@ const appRouter = createBrowserRouter([
       { path: "/movies/:id", element: <MovieDetails /> },
       { path: "/movies/:id/:date", element: <SeatLayout /> },
       { path: "/my-bookings", element: <MyBookings /> },
-      { path: "/favourite", element: <Favourite /> }
+      { path: "/favourites", element: <Favourite /> }
     ]
   },
   {
