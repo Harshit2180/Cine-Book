@@ -1,12 +1,15 @@
 import { ChartLineIcon, CircleDollarSignIcon, PlayCircleIcon, StarIcon, UserIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-import { dummyDashboardData } from '../../assets/assets'
 import Loading from '../../components/Loading'
 import Title from '../../components/Admin/Title'
 import BlurCircle from '../../components/BlurCircle'
 import dateFormat from '../../libraries/dateFormat'
+import { useAppContext } from '../../context/AppContext'
+import toast from 'react-hot-toast'
 
 const Dashboard = () => {
+
+  const { axios, getToken, user, image_base_url } = useAppContext()
 
   const currency = import.meta.env.VITE_CURRENCY
 
@@ -27,13 +30,30 @@ const Dashboard = () => {
   ]
 
   const fetchDashboardData = async () => {
-    setDashboardData(dummyDashboardData)
-    setLoading(false)
+    try {
+
+      const { data } = await axios.get('/api/admin/dashboard', {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })
+
+      if (data.success) {
+        setDashboardData(data.dashboardData)
+        setLoading(false)
+      }
+      else {
+        toast.error(data.message)
+      }
+
+    } catch (error) {
+      console.error("Error fetching dashboard data: ", error)
+    }
   }
 
   useEffect(() => {
-    fetchDashboardData()
-  }, [])
+    if (user) {
+      fetchDashboardData()
+    }
+  }, [user])
 
   return !loading ? (
     <>
