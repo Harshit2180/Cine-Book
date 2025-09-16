@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { createContext } from "react";
 import axios from "axios"
 import { useAuth, useUser } from "@clerk/clerk-react";
-import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
 
@@ -17,12 +16,10 @@ export const AppProvider = ({ children }) => {
     const [shows, setShows] = useState([])
     const [favouriteMovies, setFavouriteMovies] = useState([])
 
-    // const image_base_url = import.meta.env.VITE_IMAGE_BASE_URL
+    const image_base_url = import.meta.env.VITE_IMAGE_BASE_URL
 
     const { user } = useUser()
     const { getToken } = useAuth()
-    const location = useLocation()
-    const navigate = useNavigate()
 
     const fetchIsAdmin = async () => {
         try {
@@ -52,7 +49,7 @@ export const AppProvider = ({ children }) => {
                 setShows(data.shows)
             }
             else {
-                toast.error(error)
+                toast.error(data.message)
             }
 
         } catch (error) {
@@ -72,7 +69,7 @@ export const AppProvider = ({ children }) => {
                 setFavouriteMovies(data.movies)
             }
             else {
-                toast.error(error)
+                toast.error(data.message)
             }
 
         } catch (error) {
@@ -97,12 +94,11 @@ export const AppProvider = ({ children }) => {
         fetchIsAdmin,
         user,
         getToken,
-        navigate,
         isAdmin,
         shows,
         favouriteMovies,
         fetchFavouriteMovies,
-        // image_base_url
+        image_base_url
     }
 
     return (

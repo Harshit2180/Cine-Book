@@ -7,7 +7,7 @@ const checkSeatAvailability = async (showId, selectedSeats) => {
         const showData = await Show.findById(showId)
 
         if (!showData) {
-            return
+            return false
         }
 
         const occupiedSeats = showData.occupiedSeats

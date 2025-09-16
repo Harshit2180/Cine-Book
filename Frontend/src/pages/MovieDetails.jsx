@@ -19,7 +19,7 @@ const MovieDetails = () => {
   const getShow = async () => {
     try {
 
-      const { data } = axios.get(`/api/show/${id}`)
+      const { data } = await axios.get(`/api/show/${id}`)
       if (data.success) {
         setShow(data)
       }
@@ -36,8 +36,8 @@ const MovieDetails = () => {
         toast.error("Please login to proceed")
       }
 
-      const { data } = await axios.post('/api/user/update-favourite', {
-        headers: { Authorization: `Bearer ${getToken()}` }
+      const { data } = await axios.post('/api/user/update-favourites', { movieId: id }, {
+        headers: { Authorization: `Bearer ${await getToken()}` }
       })
 
       if (data.success) {
@@ -57,7 +57,7 @@ const MovieDetails = () => {
   return show ? (
     <div className='px-6 md:px-16 lg:px-40 placeholder-teal-300 md:pt-0.5 mt-45'>
       <div className='flex flex-col md:flex-row gap-8 max-w-6xl mx-auto'>
-        <img src={show.movie.poster_path} alt="moviePoster" className='max-md:mx-auto rounded-xl h-104 max-w-70 object-contain' />
+        <img src={image_base_url + show.movie.poster_path} alt="moviePoster" className='max-md:mx-auto rounded-xl h-104 max-w-70 object-contain' />
         <div className='relative flex flex-col gap-3'>
           <BlurCircle top='-100px' left='-100px' />
           <p className='text-primary'>English</p>
@@ -79,7 +79,7 @@ const MovieDetails = () => {
         <div className='flex items-center gap-4 w-max px-4'>
           {show.movie.casts.slice(0, 12).map((cast, index) => (
             <div key={index} className='flex flex-col items-center text-center'>
-              <img src={cast.profile_path} alt="" className='rounded-full h-20 md:h-20 aspect-square object-cover' />
+              <img src={image_base_url + cast.profile_path} alt="" className='rounded-full h-20 md:h-20 aspect-square object-cover' />
               <p className='font-medium text-xs mt-3'>{cast.name}</p>
             </div>
           ))}

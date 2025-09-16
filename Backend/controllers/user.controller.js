@@ -8,11 +8,11 @@ export const getUserBookings = async (req, res) => {
 
         const user = req.auth()
 
-        const bookngs = await Booking.find({ user }).populate({ path: 'show', populate: { path: 'movie' } }).sort({ createdAt: -1 })
+        const bookings = await Booking.find({ user }).populate({ path: 'show', populate: { path: 'movie' } }).sort({ createdAt: -1 })
 
         res.json({
             success: true,
-            bookngs
+            bookings
         })
 
     } catch (error) {

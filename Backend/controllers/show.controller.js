@@ -5,8 +5,7 @@ import { Show } from "../models/show.model.js"
 export const getNowPlayingMovies = async (req, res) => {
     try {
 
-        // add api end point
-        await axios.get("api-end-point", {
+        const { data } = await axios.get("https://api.themoviedb.org/3/movie/now_playing", {
             headers: {
                 Authorization: `Bearer ${process.env.MOVIE_API_KEY}`
             }
@@ -38,13 +37,13 @@ export const addShow = async (req, res) => {
         if (!movie) {
             // fetch movie details and credits from the api
             const [movieDetailsResponse, movieCreditsResponse] = await Promise.all([
-                axios.get(`movie-api/${movieId}`, {
+                axios.get(`https://api.themoviedb.org/3/movie/${movieId}`, {
                     headers: {
                         Authorization: `Bearer ${process.env.MOVIE_API_KEY}`
                     }
                 }),
 
-                axios.get(`cast-api/${movieId}`, {
+                axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits`, {
                     headers: {
                         Authorization: `Bearer ${process.env.MOVIE_API_KEY}`
                     }
@@ -61,7 +60,7 @@ export const addShow = async (req, res) => {
                 poster_path: movieApiData.poster_path,
                 backdrop_path: movieApiData.backdrop_path,
                 genres: movieApiData.genres,
-                casts: movieCreditsData.casts,
+                casts: movieCreditsData.cast,
                 release_date: movieApiData.release_date,
                 original_language: movieApiData.original_language,
                 tagline: movieApiData.tagline || "",
@@ -141,7 +140,7 @@ export const getShow = async (req, res) => {
         shows.forEach((show) => {
             const date = show.showDateTime.toISOString().split("T")[0]
             if (!dateTime[date]) {
-                dateTime[date]
+                dateTime[date] = []
             }
             dateTime[date].push({ time: show.showDateTime, showId: show._id })
         })

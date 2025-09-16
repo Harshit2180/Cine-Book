@@ -21,7 +21,7 @@ const AddShows = () => {
     try {
 
       const { data } = await axios.get('/api/show/now-playing', {
-        headers: { Authorization: `'Bearer ${await getToken()}` }
+        headers: { Authorization: `Bearer ${await getToken()}` }
       })
 
       if (data.success) {
@@ -79,7 +79,7 @@ const AddShows = () => {
         showPrice: Number(showPrice)
       }
 
-      const { data } = await axios.post('/api/show/add', payload, { headers: { Authorization: `Bearer ${getToken()}` } })
+      const { data } = await axios.post('/api/show/add', payload, { headers: { Authorization: `Bearer ${await getToken()}` } })
 
       if (data.success) {
         toast.success(data.message)
@@ -113,7 +113,7 @@ const AddShows = () => {
           {nowPlayingMovies.map((movie) => (
             <div key={movie.id} onClick={() => setSelectedMovie(movie.id)} className={`relative max-w-40 cursor-pointer group-hover:not-hover:opacity-40 hover:-translate-y-1 transition duration-300`}>
               <div className='relative rounded-lg overflow-hidden'>
-                <img src={movie.poster_path} alt="" className='w-full object-contain brightness-90' />
+                <img src={image_base_url + movie.poster_path} alt="" className='w-full object-contain brightness-90' />
                 <div className='text-sm flex items-center justify-between p-2 bg-black/70 w-full absolute bottom-0 left-0'>
                   <p className='flex items-center gap-1 text-gray-400'>
                     <StarIcon className='w-4 h-4 text-primary fill-primary' /> {movie.vote_average.toFixed(1)}

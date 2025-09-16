@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import AdminNavbar from '../components/Admin/AdminNavbar'
 import AdminSidebar from '../components/Admin/AdminSidebar'
 import { Outlet } from 'react-router-dom'
@@ -9,12 +9,23 @@ import Loading from '../components/Loading'
 const AdminLayout = () => {
 
     const { isAdmin, fetchIsAdmin } = useAppContext()
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetchIsAdmin()
+        const checkAdmin = async () => {
+            await fetchIsAdmin()
+            setLoading(false)
+        }
+        checkAdmin()
     }, [])
 
-    return isAdmin ? (
+    if (loading) return <Loading />
+
+    if (!isAdmin) {
+        return <Navigate to="/" state={{ from: location }} replace />
+    }
+
+    return (
         <>
             <AdminNavbar />
             <div className='flex'>
@@ -24,7 +35,7 @@ const AdminLayout = () => {
                 </div>
             </div>
         </>
-    ) : <Loading />
+    )
 }
 
 export default AdminLayout
