@@ -3,13 +3,20 @@ import BlurCircle from './BlurCircle'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { useAppContext } from '../context/AppContext'
 
 const DateSelect = ({ dateTime, id }) => {
 
     const [selected, setSelected] = useState(null)
     const navigate = useNavigate()
+    const { user } = useAppContext()
+
 
     const onBookHandler = () => {
+
+        if (!user) {
+            return toast.error("Please login to proceed")
+        }
         if (!selected) {
             return toast("Please select a date")
         }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import AdminNavbar from '../components/Admin/AdminNavbar'
 import AdminSidebar from '../components/Admin/AdminSidebar'
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext'
 import { useEffect } from 'react'
 import Loading from '../components/Loading'
@@ -22,7 +22,7 @@ const AdminLayout = () => {
     if (loading) return <Loading />
 
     if (!isAdmin) {
-        return <Navigate to="/" state={{ from: location }} replace />
+        return <Navigate to="/" replace />
     }
 
     return (
