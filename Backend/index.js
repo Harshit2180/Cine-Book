@@ -9,6 +9,7 @@ import showRouter from "./routes/show.route.js"
 import bookingRouter from "./routes/booking.route.js"
 import adminRouter from "./routes/adminRoutes.js"
 import userRouter from "./routes/user.route.js"
+import { stripeWebhooks } from "./controllers/stripeWebhook.js";
 
 dotenv.config({ quiet: true })
 
@@ -16,6 +17,8 @@ connectDB()
 
 const app = express()
 const PORT = process.env.PORT || 3000
+
+app.use('/api/stripe', express.raw({ type: 'application/json' }), stripeWebhooks)
 
 app.use(express.json())
 app.use(cors())

@@ -13,6 +13,7 @@ import AddShows from './pages/Admin/AddShows'
 import ListShows from './pages/Admin/ListShows'
 import ListBookings from './pages/Admin/ListBookings'
 import Dashboard from './pages/Admin/Dashboard'
+import Loading from './components/Loading'
 
 const appRouter = createBrowserRouter([
   {
@@ -24,7 +25,8 @@ const appRouter = createBrowserRouter([
       { path: "movies/:id", element: <MovieDetails /> },
       { path: "movies/:id/:date", element: <SeatLayout /> },
       { path: "my-bookings", element: <MyBookings /> },
-      { path: "favourites", element: <Favourite /> }
+      { path: "favourites", element: <Favourite /> },
+      { path: "loading/:nextUrl", element: <Loading /> }
     ]
   },
   {
